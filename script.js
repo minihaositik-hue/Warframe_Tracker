@@ -142,4 +142,4 @@ function startCountdown() {
 }
 
 updateTracker();
-startCountdown();
+startCountdown(); 
