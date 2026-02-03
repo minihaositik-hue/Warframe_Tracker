@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warframe Incarnon Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
         body {
             /* Переконайся, що твоя картинка називається background.jpg і лежить в папці images */
@@ -13,7 +13,7 @@
             background-size: cover;
             background-position: center;
             color: #f0f0f0;
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Exo 2', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -21,6 +21,7 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            position: relative;
         }
 
         .container {
@@ -75,14 +76,19 @@
         }
 
         #weapons-list li {
-            background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
-            margin: 10px 0;
-            padding: 10px 20px;
-            border-left: 3px solid #666;
+            background: linear-gradient(90deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 100%);
+            margin: 12px 0;
+            padding: 12px 20px;
+            border-left: 4px solid #555;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            font-size: 20px;
+            font-size: 26px; 
+            
+            font-weight: 600;
+            letter-spacing: 1px;
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
         }
 
         #weapons-list li:hover {
@@ -93,7 +99,11 @@
         }
 
         #weapons-list img {
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+            height: 68px; 
+            
+            width: auto;
+            margin-right: 20px;
         }
         /* СТИЛЬ КНОПКИ ПЕРЕМИКАННЯ */
         #week-toggle {
@@ -121,6 +131,16 @@
 
         #week-toggle:active {
             transform: scale(0.95);
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px); /* Виїжджає зліва (-50 пікселів) */
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0); /* Стає на місце */
+            }
         }
     </style>
 </head>
