@@ -5,25 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warframe Incarnon Tracker</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-    <style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
+    <link rel="stylesheet" href="style.css"> <style>
         body {
-            /* Переконайся, що твоя картинка називається background.jpg і лежить в папці images */
             background-image: url('images/background.jpg');
             background-color: #0d0d0d;
             background-size: cover;
             background-position: center;
+            background-attachment: fixed; /* Фон не рухається при прокрутці */
             color: #f0f0f0;
             font-family: 'Exo 2', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh; /* min-height краще для прокрутки на мобільному */
+            min-height: 100vh;
             margin: 0;
-            overflow-x: hidden; /* Ховаємо тільки горизонтальну прокрутку */
-            position: relative;
+            overflow-x: hidden;
         }
 
+        /* --- КНОПКА МЕНЮ (ЗЛІВА ЗВЕРХУ) --- */
+        #menu-btn {
+            position: fixed; /* Завжди на одному місці */
+            top: 20px;
+            left: 20px;
+            z-index: 100; /* Поверх усього */
+            background: rgba(0, 0, 0, 0.8);
+            color: #c5a966;
+            border: 1px solid #c5a966;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        #menu-btn:hover {
+            background: #c5a966;
+            color: #000;
+            box-shadow: 0 0 15px #c5a966;
+        }
+
+        /* --- КОНТЕЙНЕРИ --- */
         .container {
             background: rgba(20, 20, 20, 0.9);
             padding: 40px;
@@ -32,11 +58,20 @@
             box-shadow: 0 0 20px rgba(197, 169, 102, 0.2);
             text-align: center;
             width: 90%; 
-            max-width: 1100px; /* Ширина для 3-х колонок */
+            max-width: 1100px;
             backdrop-filter: blur(5px);
-            margin: 20px 0; /* Відступ зверху і знизу, щоб не липло до країв */
+            margin: 80px 0 40px 0; /* Відступ зверху для кнопки меню */
+            position: relative;
+            /* Анімація появи сторінок */
+            animation: fadeIn 0.5s ease-out;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ШРИФТИ ТА ТЕКСТ --- */
         h1 {
             font-family: 'Orbitron', sans-serif;
             color: #f5f5f5;
@@ -46,7 +81,6 @@
             font-size: 38px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
-
         #current-week {
             font-size: 22px;
             color: #c5a966;
@@ -56,7 +90,7 @@
             letter-spacing: 1px;
         }
 
-        /* ТАЙМЕР */
+        /* --- ТАЙМЕР --- */
         #timer-box {
             font-size: 18px;
             color: #a0a0a0;
@@ -66,7 +100,6 @@
             padding-bottom: 10px;
             width: 100%;
         }
-        
         #timer {
             color: #ffffff;
             font-weight: bold;
@@ -76,7 +109,7 @@
             text-shadow: 0 0 10px rgba(197, 169, 102, 0.5);
         }
 
-        /* КНОПКА */
+        /* --- КНОПКА ПЕРЕМИКАННЯ ТИЖНЯ --- */
         #week-toggle {
             background-color: transparent;
             color: #f0f0f0;
@@ -91,31 +124,26 @@
             margin-bottom: 30px;
             transition: all 0.3s ease;
         }
-
         #week-toggle:hover {
             background-color: rgba(197, 169, 102, 0.2);
             box-shadow: 0 0 15px rgba(197, 169, 102, 0.4);
             transform: scale(1.05);
         }
 
-        /* --- СТИЛІ ДЛЯ КОЛОНОК (ЦЕ ТЕ, ЩО БУЛО ПРОПУЩЕНО) --- */
-        
+        /* --- КАТЕГОРІЇ (ТРЕКЕР) --- */
         .category-container {
-            display: flex; /* Магія: ставить елементи в ряд */
-            justify-content: space-between; /* Розтягує їх по ширині */
-            gap: 20px; /* Відстань між колонками */
-            align-items: flex-start; /* Вирівнює по верху */
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: flex-start;
         }
-
         .category-column {
-            flex: 1; /* Всі колонки однакової ширини */
-            background: rgba(255, 255, 255, 0.03); /* Легкий фон */
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
             padding: 15px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        /* Заголовки категорій */
         .category-title {
             font-family: 'Orbitron', sans-serif;
             color: #c5a966;
@@ -130,14 +158,13 @@
             letter-spacing: 1px;
         }
 
-        /* Списки */
+        /* СПИСКИ ЗБРОЇ */
         .weapon-group {
             list-style: none;
             padding: 0;
             margin: 0;
             width: 100%;
         }
-
         .weapon-group li {
             background: linear-gradient(90deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 100%);
             margin: 8px 0;
@@ -145,47 +172,165 @@
             border-left: 3px solid #555;
             display: flex;
             align-items: center;
-            font-size: 18px; /* Оптимальний розмір, щоб влізло */
+            font-size: 18px;
             font-weight: 600;
-            animation: slideIn 0.5s ease-out forwards;
-            opacity: 0;
             transition: all 0.3s ease;
         }
-
         .weapon-group li:hover {
             background: linear-gradient(90deg, rgba(197, 169, 102, 0.25) 0%, rgba(0,0,0,0) 100%);
             border-left: 3px solid #c5a966;
             transform: translateX(5px);
         }
-
         .weapon-group img {
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
-            height: 40px; /* Трохи менші іконки, щоб влазило */
+            height: 40px;
             width: auto;
             margin-right: 10px;
         }
 
-        /* Адаптивність для телефонів */
-        @media (max-width: 768px) {
-            .category-container {
-                flex-direction: column; /* Повертаємо у стовпчик на телефоні */
-            }
-            .category-column {
-                width: 100%; /* На всю ширину */
-                box-sizing: border-box; /* Щоб відступи не ламали ширину */
-                margin-bottom: 20px;
-            }
+        /* --- БІБЛІОТЕКА (СІТКА ЗБРОЇ) --- */
+        #library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Автоматичні колонки */
+            gap: 15px;
+        }
+        
+        /* КАРТКА ЗБРОЇ В БІБЛІОТЕЦІ */
+        .library-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .library-item:hover {
+            border-color: #c5a966;
+            background: rgba(197, 169, 102, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .library-item img {
+            height: 80px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+        }
+        .library-item span {
+            font-weight: 700;
+            font-size: 16px;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+        /* --- МОДАЛЬНЕ ВІКНО (Виправлено) --- */
+        .modal-hidden {
+            display: none;
+        }
+        #modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            
+            /* БУЛО: display: flex; (Це помилка, воно показувало вікно одразу) */
+            /* СТАЛО: */
+            display: none; /* Тепер воно сховане за замовчуванням */
+            
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: #141414;
+            border: 2px solid #c5a966;
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(197, 169, 102, 0.2);
+            animation: popIn 0.3s ease-out;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .close-modal {
+            position: absolute;
+            top: 10px; right: 15px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        #modal-img {
+            height: 100px;
+            margin-bottom: 15px;
+        }
+        #modal-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #c5a966;
+            margin-top: 0;
+        }
+
+        /* --- АДАПТИВНІСТЬ --- */
+        @media (max-width: 768px) {
+            .category-container {
+                flex-direction: column;
+            }
+            .category-column {
+                width: 100%;
+                box-sizing: border-box;
+                margin-bottom: 20px;
+            }
+            h1 { font-size: 28px; }
+            #library-grid { grid-template-columns: repeat(2, 1fr); } /* 2 колонки на телефоні */
+        }
+        /* --- ПОЛЕ ПОШУКУ --- */
+        #search-input {
+            width: 100%;
+            max-width: 400px; /* Щоб не розтягувалось на весь екран на ПК */
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            
+            background-color: rgba(0, 0, 0, 0.5); /* Темний напівпрозорий фон */
+            border: 1px solid #c5a966; /* Золота рамка */
+            border-radius: 4px;
+            
+            color: #ffffff;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 18px;
+            text-align: center; /* Текст по центру */
+            outline: none; /* Прибираємо стандартну синю обводку браузера */
+            transition: all 0.3s ease;
+        }
+
+        /* Ефект, коли ти клікаєш у поле */
+        #search-input:focus {
+            background-color: rgba(197, 169, 102, 0.1);
+            box-shadow: 0 0 15px rgba(197, 169, 102, 0.3);
+            border-color: #fff;
+        }
+
+        /* Стиль для тексту-підказки (placeholder) */
+        #search-input::placeholder {
+            color: #888;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <button id="menu-btn" onclick="toggleLibrary()">
+        <span class="material-symbols-outlined">grid_view</span>
+        АРСЕНАЛ
+    </button>
+
+    <div id="tracker-view" class="container">
         <h1>Трекер Генезису Інкарнон</h1>
         
         <div id="current-week">Завантаження...</div>
@@ -197,22 +342,40 @@
         <button id="week-toggle" onclick="toggleWeek()">Показати наступний тиждень ➔</button>
         
         <div class="category-container">
-            
             <div class="category-column">
                 <h3 class="category-title">ОСНОВНА</h3>
                 <ul id="list-primary" class="weapon-group"></ul>
             </div>
-            
             <div class="category-column">
                 <h3 class="category-title">ДОПОМІЖНА</h3>
                 <ul id="list-secondary" class="weapon-group"></ul>
             </div>
-            
             <div class="category-column">
                 <h3 class="category-title">ХОЛОДНА</h3>
                 <ul id="list-melee" class="weapon-group"></ul>
             </div>
+        </div>
+    </div>
 
+    <div id="library-view" class="container" style="display: none;">
+        <h1>Список генезисів Інкарнон</h1>
+        <input type="text" id="search-input" onkeyup="filterLibrary()" placeholder="🔍 Пошук...">
+        
+        <p style="color: #a0a0a0; margin-bottom: 20px; margin-top: 10px;">Натисніть на зброю, щоб дізнатись дату появи</p>
+        
+        <div id="library-grid"></div>
+    </div>
+
+    <div id="modal-overlay" class="modal-hidden" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()"> <button class="close-modal" onclick="closeModal()">×</button>
+            <img id="modal-img" src="" alt="Weapon">
+            <h2 id="modal-title">Назва зброї</h2>
+            <div class="modal-info">
+                <p>Ротація: <span id="modal-rotation" style="color: #c5a966; font-weight: bold;">?</span></p>
+                <hr style="border: 0; border-top: 1px solid #444; margin: 15px 0;">
+                <p style="font-size: 14px; color: #aaa;">НАСТУПНА ПОЯВА:</p>
+                <p id="modal-date" style="font-size: 20px; color: #fff; font-weight: bold; margin-top: 5px;">...</p>
+            </div>
         </div>
     </div>
 
